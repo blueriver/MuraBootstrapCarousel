@@ -20,6 +20,7 @@ component extends="mura.plugin.pluginGenericEventHandler" {
       var slides='';
       var slide='';
       var class='';
+      var style='';
 
       if(not structKeyExists(params,"feedID")){
          params.feedID='';
@@ -43,13 +44,21 @@ component extends="mura.plugin.pluginGenericEventHandler" {
          params.cssID="myCarousel";
       }
 
+      if(isNumeric(params.imageHeight)){
+         style=style & " height:#params.imageHeight#px;";
+      }
+
+      if(isNumeric(params.imageWidth)){
+         style=style & " width:#params.imageWidth#px;";
+      }
+
       if (len(params.feedID)){
          slides=$.getBean("feed").loadBy(feedID=params.feedID).getIterator();
 
          if (slides.hasNext()){
             $.loadJSLib();
 
-            str='<div id="#htmlEditFormat(params.cssID)#" class="carousel slide">
+            str='<div id="#htmlEditFormat(params.cssID)#" class="carousel slide" style="#style#">
                <div class="carousel-inner">';
 
             class='item active';
@@ -57,7 +66,7 @@ component extends="mura.plugin.pluginGenericEventHandler" {
             while(slides.hasNext()){
                slide=slides.next();
                str=str & '<div class="#class#">
-                   <img src="#slide.getImageURL(argumentCollection=params)#" alt="">
+                   <img src="#slide.getImageURL(size=params.imagesize,height=params.imageHeight,width=params.imageWidth)#" alt="">
                    <div class="carousel-caption">
                      <h4><a href="#slide.getURL()#">#HTMLEditFormat(slide.getTitle())#</a></h4>
                      #slide.getSummary()#
