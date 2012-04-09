@@ -66,7 +66,7 @@ component extends="mura.plugin.pluginGenericEventHandler" {
                class='item';
             }  
 
-            str=str & '<a class="left carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="prev">‹</a>
+            str=str & '</div><a class="left carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="prev">‹</a>
             <a class="right carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="next">›</a>
           </div>
           <script>$("document").ready(function(){$("###params.cssID#").carousel({interval: #evaluate(params.interval * 1000)#});});</script>';
