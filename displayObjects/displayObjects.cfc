@@ -15,9 +15,70 @@
 component extends="mura.plugin.pluginGenericEventHandler" {
 	
 	public any function dspCarousel($){
-		
-     
-		return "<p>test</p>";
+		var params=$.event('objectParams');
+      var str='';
+      var slides='';
+      var slide='';
+      var class='';
+
+      if(not structKeyExists(params,"feedID")){
+         params.feedID='';
+      }
+
+      if(not structKeyExists(params,"imageSize")){
+         params.imageSize='Large';
+      }
+
+      if(not structKeyExists(params,"imageHeight")){
+         params.imageHeight='AUTO';
+      }
+      if(not structKeyExists(params,"imageWidth")){
+         params.imageWidth='AUTO';
+      }
+      if(not structKeyExists(params,"interval")){
+         params.interval=5;
+      }
+
+      if(not structKeyExists(params,"cssID")){
+         params.cssID="myCarousel";
+      }
+
+      if (len(params.feedID)){
+         slides=$.getBean("feed").loadBy(feedID=params.feedID).getIterator();
+
+         if (slides.hasNext()){
+            $.loadJSLib();
+
+            str='<div id="#htmlEditFormat(params.cssID)#" class="carousel slide">
+               <div class="carousel-inner">';
+
+            class='item active';
+
+            while(slides.hasNext()){
+               slide=slides.next();
+               str=str & '<div class="#class#">
+                   <img src="#slide.getImageURL(argumentCollection=params)#" alt="">
+                   <div class="carousel-caption">
+                     <h4>#HTMLEditFormat(slide.getTitle())#</h4>
+                     #slide.getSummary()#
+                   </div>
+                 </div>';
+               class='item';
+            }  
+
+            str=str & '<a class="left carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="next">›</a>
+          </div>
+          <script>$("document").ready(function(){$("###params.cssID#").carousel({interval: #evaluate(params.interval * 1000)#});});</script>';
+
+          pluginConfig.addToHtmlFootQueue('displayObjects/htmlfoot/htmlfoot.cfm');
+
+         }
+      }
+
+   return str;
+
+	
 		
 	}
 }

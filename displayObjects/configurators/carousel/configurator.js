@@ -18,13 +18,13 @@ function initBootstrapCarouselConfigurator(data){
 	initConfigurator(
 		data,
 		{
-			url:'../plugins/ConfiguratorExample/displayObjects/configurators/carousel/configurator.cfm',
+			url:'../plugins/MuraBootstrapCarousel/displayObjects/configurators/carousel/configurator.cfm',
 			pars:'',
 			title: 'Bootstrap Carousel',
 			init: function(){},
 			destroy: function(){},
 			validate: function(){
-				return true;	
+				return validateForm(document.getElementById('availableObjectParamsForm'));	
 				}
 		}
 	);
