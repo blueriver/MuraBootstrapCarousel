@@ -59,7 +59,7 @@ component extends="mura.plugin.pluginGenericEventHandler" {
                str=str & '<div class="#class#">
                    <img src="#slide.getImageURL(argumentCollection=params)#" alt="">
                    <div class="carousel-caption">
-                     <h4>#HTMLEditFormat(slide.getTitle())#</h4>
+                     <h4><a href="#slide.getURL()#">#HTMLEditFormat(slide.getTitle())#</a></h4>
                      #slide.getSummary()#
                    </div>
                  </div>';
