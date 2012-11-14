@@ -64,20 +64,21 @@
 			</select></dd>
 			<dt class="first">Image Size</dt>
 			<dd><select name="imageSize" class="objectParam  dropdown" onchange="if(this.value=='custom'){jQuery('##bsCarouselImageOptions').fadeIn('fast')}else{jQuery('##bsCarouselImageOptions').hide();jQuery('##bsCarouselImageOptions').find(':input').val('AUTO');}">
-					<cfloop list="Small,Medium,Large,Custom" index="i">
+					
 						<cfloop list="Small,Medium,Large" index="i">
 							<option value="#lcase(i)#"<cfif i eq params.imagesize> selected</cfif>>#I#</option>
 						</cfloop>
 						
-						<cfset imageSizes=application.settingsManager.getSite(rc.siteid).getCustomImageSizeIterator()>
+						<cfset imageSizes=application.settingsManager.getSite(session.siteid).getCustomImageSizeIterator()>
 														
 						<cfloop condition="imageSizes.hasNext()">
 							<cfset image=imageSizes.next()>
 							<option value="#lcase(image.getName())#"<cfif image.getName() eq params.imagesize> selected</cfif>>#HTMLEditFormat(image.getName())#</option>
 						</cfloop>
 						<option value="custom"<cfif "custom" eq params.imagesize> selected</cfif>>Custom</option>
-					</cfloop>
+		
 				</select>
+
 			</dd>
 
 			<dd id="bsCarouselImageOptions"<cfif params.imageSize neq "custom"> style="display:none"</cfif>>
