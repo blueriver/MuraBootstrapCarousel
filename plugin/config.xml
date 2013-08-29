@@ -1,40 +1,38 @@
 <!--
-   Copyright 2012 Blue River Interactive
+	Copyright 2012 Blue River Interactive
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <plugin>
-<name>Mura Bootstrap Carousel</name>
-<package>MuraBootstrapCarousel</package>
-<directoryFormat>packageOnly</directoryFormat>
-<version>0</version>
-<loadPriority>5</loadPriority>
-<provider>Blue River</provider>
-<providerURL>http://blueriver.com</providerURL>
-<category>Application</category>
-<ormCFCLocation></ormCFCLocation>
-<customTagPaths></customTagPaths>
-<autoDeploy>true</autoDeploy>
-<siteID></siteID>
-<settings/>
-<eventHandlers/>
-<displayobjects location="global">
+	<name>Mura Bootstrap Carousel</name>
+	<package>MuraBootstrapCarousel</package>
+	<directoryFormat>packageOnly</directoryFormat>
+	<version>1.1</version>
+	<loadPriority>5</loadPriority>
+	<provider>Blue River</provider>
+	<providerURL>http://blueriver.com</providerURL>
+	<category>Application</category>
+	<autoDeploy>true</autoDeploy>
+	<siteID></siteID>
+	<settings/>
+	<eventHandlers/>
+	<displayobjects location="global">
 		<displayobject 
-		name="Boostrap Carousel" 
-		displaymethod="dspCarousel" 
-		component="displayObjects.displayObjects"
-		configuratorInit="initBootstrapCarouselConfigurator"
-		configuratorJS="displayObjects/configurators/carousel/configurator.js"
-		persist="false" />
-</displayobjects>
+			name="Boostrap Carousel" 
+			displaymethod="dspCarousel" 
+			component="displayObjects.displayObjects"
+			configuratorInit="initBootstrapCarouselConfigurator"
+			configuratorJS="displayObjects/configurators/carousel/configurator.js"
+			persist="false" />
+	</displayobjects>
 </plugin>

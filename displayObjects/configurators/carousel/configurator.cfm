@@ -14,37 +14,20 @@
    limitations under the License.
 -->
 <cfscript>
-	$=application.serviceFactory.getBean("MuraScope").init(session.siteID);
-		
-	params=$.event("params");
-		
-	if(isJSON(params)){
-		params=deserializeJSON(params);
-	} else {
-		params=structNew();
-	}
-		
-	if(not structKeyExists(params,"feedID")){
-		params.feedID='';
-	}
+	$=application.serviceFactory.getBean('$').init(session.siteID);
 
-	if(not structKeyExists(params,"imageSize")){
-		params.imageSize='Large';
-	}
+	params = IsJSON($.event('params')) ? DeSerializeJSON($.event('params')) : {};
 
-	if(not structKeyExists(params,"imageHeight")){
-		params.imageHeight='AUTO';
-	}
-	if(not structKeyExists(params,"imageWidth")){
-		params.imageWidth='AUTO';
-	}
-	if(not structKeyExists(params,"interval")){
-		params.interval=5;
-	}
+	defaultParams = {
+		feedID=''
+		,imageSize='Large'
+		,imageHeight='AUTO'
+		,imageWidth='AUTO'
+		,interval=5
+		,cssID='myCarousel'
+	};
 
-	if(not structKeyExists(params,"cssID")){
-        params.cssID="myCarousel";
-     }
+	StructAppend(params, defaultParams, false);
 	
 	rsFeeds=$.getBean('feedManager').getFeeds(type='local',siteID=session.siteid);
 </cfscript>

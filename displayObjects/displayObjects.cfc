@@ -1,93 +1,67 @@
-﻿/* Copyright 2012 Blue River Interactive
+﻿/*
+	Copyright 2012 Blue River Interactive
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 */
 component extends="mura.plugin.pluginGenericEventHandler" {
-	
-	public any function dspCarousel($){
+
+	public any function dspCarousel($) {
 		var params=$.event('objectParams');
-      var str='';
-      var slides='';
-      var slide='';
-      var class='';
-      var style='';
+		var str='';
+		var slides='';
+		var slide='';
+		var class='';
+		var style='';
 
-      if(not structKeyExists(params,"feedID")){
-         params.feedID='';
-      }
+		defaultParams = {
+			feedID=''
+			,imageSize='Large'
+			,imageHeight='AUTO'
+			,imageWidth='AUTO'
+			,interval=5
+			,cssID='myCarousel'
+		};
 
-      if(not structKeyExists(params,"imageSize")){
-         params.imageSize='Large';
-      }
+		StructAppend(params, defaultParams, false);
 
-      if(not structKeyExists(params,"imageHeight")){
-         params.imageHeight='AUTO';
-      }
-      if(not structKeyExists(params,"imageWidth")){
-         params.imageWidth='AUTO';
-      }
-      if(not structKeyExists(params,"interval")){
-         params.interval=5;
-      }
+		if (len(params.feedID)) {
+			slides=$.getBean("feed").loadBy(feedID=params.feedID).getIterator();
 
-      if(not structKeyExists(params,"cssID")){
-         params.cssID="myCarousel";
-      }
+			if (slides.hasNext()) {
+				$.loadJSLib();
 
-      if(isNumeric(params.imageHeight)){
-         style=style & " height:#params.imageHeight#px;";
-      }
+				str='<div id="#htmlEditFormat(params.cssID)#" class="carousel slide"><div class="carousel-inner">';
 
-      if(isNumeric(params.imageWidth)){
-         style=style & " width:#params.imageWidth#px;";
-      }
+				class='item active';
 
-      if (len(params.feedID)){
-         slides=$.getBean("feed").loadBy(feedID=params.feedID).getIterator();
+				while(slides.hasNext()){
+					slide=slides.next();
+					if ( ListFindNoCase('jpg,jpeg,gif,png', ListLast(slide.getImageURL(), '.')) ) {
+						str=str & '<div class="#class#">
+							<img src="#slide.getImageURL(size=params.imagesize,height=params.imageHeight,width=params.imageWidth)#" alt="#HTMLEditFormat(slide.getTitle())#">
+							<div class="carousel-caption">
+								<h4><a href="#slide.getURL()#">#HTMLEditFormat(slide.getTitle())#</a></h4>
+								#slide.getSummary()#
+							</div>
+						</div>';
+						class='item';
+					}
+				}
+				str=str & '</div><a class="left carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="prev">&lsaquo;</a><a class="right carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="next">&rsaquo;</a></div><script>$("document").ready(function(){$("###params.cssID#").carousel({interval: #evaluate(params.interval * 1000)#});});</script>';
+				pluginConfig.addToHtmlFootQueue('displayObjects/htmlfoot/htmlfoot.cfm');
 
-         if (slides.hasNext()){
-            $.loadJSLib();
-
-            str='<div id="#htmlEditFormat(params.cssID)#" class="carousel slide" style="#style#">
-               <div class="carousel-inner">';
-
-            class='item active';
-
-            while(slides.hasNext()){
-               slide=slides.next();
-               str=str & '<div class="#class#">
-                   <img src="#slide.getImageURL(size=params.imagesize,height=params.imageHeight,width=params.imageWidth)#" alt="">
-                   <div class="carousel-caption">
-                     <h4><a href="#slide.getURL()#">#HTMLEditFormat(slide.getTitle())#</a></h4>
-                     #slide.getSummary()#
-                   </div>
-                 </div>';
-               class='item';
-            }  
-
-            str=str & '</div><a class="left carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="prev">‹</a>
-            <a class="right carousel-control" href="###htmlEditFormat(params.cssID)#" data-slide="next">›</a>
-          </div>
-          <script>$("document").ready(function(){$("###params.cssID#").carousel({interval: #evaluate(params.interval * 1000)#});});</script>';
-
-          pluginConfig.addToHtmlFootQueue('displayObjects/htmlfoot/htmlfoot.cfm');
-
-         }
-      }
-
-   return str;
-
-	
-		
+			}
+		}
+		return str;
 	}
 }
