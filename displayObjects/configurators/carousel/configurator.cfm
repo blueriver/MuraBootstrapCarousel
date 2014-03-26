@@ -51,7 +51,7 @@
 <cfoutput>
 	<div id="availableObjectParams"
 		data-object="plugin" 
-		data-name="Example Configured Object" 
+		data-name="Bootstrap Carousel" 
 		data-objectid="#$.event('objectID')#">
 		<form id="availableObjectParamsForm" onsubmit="return false;" style="display:inline;">
 		
